@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/register")
-public class RegisterController {
+@RequestMapping("/auth")
+public class SignUpController {
 
     @Autowired
     CustomerService customerService;
 
-    @PostMapping("/save")
-    public ResponseEntity<Object> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO){
+    @PostMapping("/signup")
+    public ResponseEntity<Object> signUp(@Valid @RequestBody CustomerDTO customerDTO){
         try{
             Customer savedCustomer = customerService.saveCustomer(customerDTO);
             return ResponseEntity.ok(savedCustomer);

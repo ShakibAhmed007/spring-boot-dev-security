@@ -23,7 +23,8 @@ public class CustomerDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String userName, password = null;
+        String userName = null;
+        String password = null;
         List<GrantedAuthority> authorityList = null;
         Customer customer = customerRepository.findByEmail(username);
 
