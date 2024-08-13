@@ -38,10 +38,18 @@ public class SecurityConfig {
                 )
                 .addFilterAfter(new CsrfTokenFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/account/**").hasAuthority("VIEWACCOUNT")
+
+                        // authority based
+                        /*.requestMatchers("/account/**").hasAuthority("VIEWACCOUNT")
                         .requestMatchers("/balance/**").hasAuthority("VIEWBALANCE")
                         .requestMatchers("/card/**").hasAuthority("VIEWCARDS")
-                        .requestMatchers("/loan/**").hasAuthority("VIEWLOANS")
+                        .requestMatchers("/loan/**").hasAuthority("VIEWLOANS")*/
+
+                        // role based
+                        .requestMatchers("/account/**").hasRole("USER")
+                        .requestMatchers("/balance/**").hasAnyRole("USER", "ADMIN", "MANAGER")
+                        .requestMatchers("/card/**").hasRole("USER")
+                        .requestMatchers("/loan/**").hasRole("USER")
                         .requestMatchers( "/login", "/contact/**").authenticated()
                         .requestMatchers("/notice/**", "/welcome/**", "/auth/**").permitAll()
                 )
