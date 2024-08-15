@@ -1,0 +1,134 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: shakib
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  type: VARCHAR(500)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2
+      author: shakib
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: customer
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: customer_pkey
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: email
+                  type: varchar(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: varchar(500)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role
+                  type: varchar(250)
+            tableName: customer
+
+  - changeSet:
+      id: 3
+      author: shakib
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: authority-pkey
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: customer_id
+                  type: bigint
+              - column:
+                  name: authority
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - addForeignKeyConstraint:
+                  baseColumnNames: customer_id
+                  baseTableName: authorities
+                  constraintName: fk_authorities_customers
+                  referencedColumnNames: id
+                  referencedTableName: customer
+
+  - changeSet:
+      id: 4
+      author: shakib
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: contact_request
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: contact_request_pkey
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: varchar(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: varchar(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: subject
+                  type: varchar(500)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: message
+                  type: text
+            tableName: contact_request
